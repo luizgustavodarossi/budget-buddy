@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_18_233634) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_18_234739) do
   create_table "accounts", force: :cascade do |t|
     t.string "name"
     t.integer "kind"
     t.decimal "balance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "users_id"
+    t.index ["users_id"], name: "index_accounts_on_users_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -24,6 +26,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_233634) do
     t.integer "kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "users_id"
+    t.index ["users_id"], name: "index_categories_on_users_id"
   end
 
   create_table "credit_cards", force: :cascade do |t|
@@ -34,6 +38,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_233634) do
     t.integer "expire_day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "users_id"
+    t.index ["users_id"], name: "index_credit_cards_on_users_id"
   end
 
   create_table "transaction_groups", force: :cascade do |t|
@@ -54,12 +60,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_233634) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "transaction_groups_id"
+    t.integer "users_id"
     t.index ["accounts_id"], name: "index_transactions_on_accounts_id"
     t.index ["categories_id"], name: "index_transactions_on_categories_id"
     t.index ["transaction_groups_id"], name: "index_transactions_on_transaction_groups_id"
+    t.index ["users_id"], name: "index_transactions_on_users_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "accounts", "users", column: "users_id"
+  add_foreign_key "categories", "users", column: "users_id"
+  add_foreign_key "credit_cards", "users", column: "users_id"
   add_foreign_key "transactions", "accounts", column: "accounts_id"
   add_foreign_key "transactions", "categories", column: "categories_id"
   add_foreign_key "transactions", "transaction_groups", column: "transaction_groups_id"
+  add_foreign_key "transactions", "users", column: "users_id"
 end
