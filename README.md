@@ -22,7 +22,7 @@ Budget Buddy is a personal finance management application that allows users to e
 
 ## Installation
 
-1. Clone this repository: `git clone https://github.com/your-username/your-repo.git`
+1. Clone this repository: `git clone https://github.com/luizgustavodarossi/budget-buddy.git`
 2. Navigate to the project directory: `cd budget-buddy`
 3. Install dependencies: `bundle install`
 4. Configure the database in the `config/database.yml` file.
@@ -40,4 +40,4 @@ This project is licensed under the [XYZ License](license-link).
 
 ## Contact
 
-If you have any questions or suggestions related to this project, please contact us at [your-email@example.com].
+If you have any questions or suggestions related to this project, please contact us at [luizgustavodarossi@gmail.com].
