@@ -1,5 +1,6 @@
 class Transaction < ApplicationRecord
-  belongs_to :categories
-  belongs_to :accounts
-  belongs_to :credit_cards
+  belongs_to :user
+  belongs_to :category
+  belongs_to :account
+  belongs_to :credit_card
 end
