@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_18_234739) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_24_220528) do
   create_table "accounts", force: :cascade do |t|
     t.string "name"
     t.integer "kind"
@@ -50,20 +50,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_234739) do
   create_table "transactions", force: :cascade do |t|
     t.string "description"
     t.integer "kind"
-    t.integer "categories_id", null: false
-    t.integer "accounts_id", null: false
-    t.date "due_at"
-    t.decimal "amount_to_pay"
-    t.date "paid_at"
-    t.decimal "amount_paid"
+    t.integer "category_id", null: false
+    t.date "emitted_at"
+    t.decimal "amount"
     t.text "observation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "transaction_groups_id"
+    t.integer "transaction_group_id"
     t.integer "user_id"
-    t.index ["accounts_id"], name: "index_transactions_on_accounts_id"
-    t.index ["categories_id"], name: "index_transactions_on_categories_id"
-    t.index ["transaction_groups_id"], name: "index_transactions_on_transaction_groups_id"
+    t.string "accountable_type", null: false
+    t.integer "accountable_id", null: false
+    t.index ["accountable_type", "accountable_id"], name: "index_transactions_on_accountable"
+    t.index ["category_id"], name: "index_transactions_on_category_id"
+    t.index ["transaction_group_id"], name: "index_transactions_on_transaction_group_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
@@ -76,8 +75,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_234739) do
   add_foreign_key "accounts", "users"
   add_foreign_key "categories", "users"
   add_foreign_key "credit_cards", "users"
-  add_foreign_key "transactions", "accounts", column: "accounts_id"
-  add_foreign_key "transactions", "categories", column: "categories_id"
-  add_foreign_key "transactions", "transaction_groups", column: "transaction_groups_id"
+  add_foreign_key "transactions", "categories"
+  add_foreign_key "transactions", "transaction_groups"
   add_foreign_key "transactions", "users"
 end

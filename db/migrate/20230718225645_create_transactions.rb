@@ -3,8 +3,8 @@ class CreateTransactions < ActiveRecord::Migration[7.0]
     create_table :transactions do |t|
       t.string :description
       t.integer :kind
-      t.references :categories, null: false, foreign_key: true
-      t.references :accounts, null: false, foreign_key: true
+      t.references :category, null: false, foreign_key: true
+      t.references :account, null: false, foreign_key: true
       t.date :due_at
       t.decimal :amount_to_pay
       t.date :paid_at

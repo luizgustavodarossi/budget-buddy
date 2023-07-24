@@ -1,13 +1,12 @@
 FactoryBot.define do
   factory :transaction do
     description { Faker::Lorem.sentence }
+    kind { Transaction.kinds.keys.sample }
     observation { Faker::Lorem.sentence }
-    amount_to_pay { Faker::Number.decimal(2) }
-    amount_paid { Faker::Number.decimal(2) }
-    due_at { Faker::Date.between(2.days.ago, Date.today) }
-    paid_at { Faker::Date.between(2.days.ago, Date.today) }
-    account
+    amount { Faker::Number.decimal(l_digits: 2) }
+    emitted_at { Faker::Date.between(from: 2.days.ago, to: Date.today) }
     category
     user
+    accountable { create(:account) }
   end
 end
