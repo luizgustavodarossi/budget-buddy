@@ -76,3 +76,5 @@ group :test do
   gem "webdrivers"
   gem 'database_cleaner', '~> 2.0', '>= 2.0.2'
 end
+
+gem "devise", "~> 4.9"
