@@ -41,7 +41,8 @@ jobs:
         if: success()
         run: |
           gem install simplecov
-          simplecov-html -o coverage
+          gem install simplecov-html
+          bundle exec simplecov-html -o coverage
           echo "Coverage report:"
           cat coverage/index.html
 
