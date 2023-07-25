@@ -110,9 +110,4 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
-
-  config.after(:suite) do
-    result = SimpleCov.result
-    result.format! if result
-  end
 end
