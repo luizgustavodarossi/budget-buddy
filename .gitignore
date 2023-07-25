@@ -36,3 +36,6 @@
 
 # Ignore test reports
 spec/examples.txt
+
+# Ignore tool-versions
+.tool-versions
