@@ -33,6 +33,9 @@ jobs:
           bundle exec rails db:schema:load RAILS_ENV=test
           bundle exec rspec
 
+      - name: Install SimpleCov
+        run: gem install simplecov
+
       - name: Validate Coverage
         run: |
           export COVERAGE_FILE=./coverage/.resultset.json
