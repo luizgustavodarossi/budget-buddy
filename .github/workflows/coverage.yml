@@ -3,7 +3,7 @@ name: Coverage Validation
 on:
   pull_request:
     branches:
-      - main  # Substitua 'main' pela branch principal do seu repositório
+      - main
 
 jobs:
   test:
@@ -23,11 +23,30 @@ jobs:
         run: |
           gem install bundler
           bundle install
+
       - name: Run Tests
         run: |
           bundle exec rspec
+
       - name: Validate Coverage
         run: |
           export COVERAGE_FILE=./coverage/.resultset.json
+
           gem install simplecov
-          simplecov check coverage: 100
+
+          # Gere o relatório de cobertura usando SimpleCov em formato JSON
+          bundle exec rspec --format json --out coverage/rspec_coverage.json
+
+          # Extraia o resultado da cobertura do arquivo gerado pelo RSpec
+          COVERAGE=$(cat coverage/rspec_coverage.json | jq '.coverage.total')
+
+          # Exiba a cobertura alcançada
+          echo "Cobertura de código: $COVERAGE"
+
+          # Determine se a cobertura atende aos critérios de sucesso ou falha
+          if (( $(echo "$COVERAGE >= 100" | bc -l) )); then
+            echo "Cobertura de código atende aos critérios de sucesso."
+          else
+            echo "Cobertura de código não atende aos critérios de sucesso."
+            exit 1 # Falha
+          fi
