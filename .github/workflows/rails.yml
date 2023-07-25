@@ -27,8 +27,33 @@ jobs:
           gem install bundler
           bundle install
 
-      - name: Run Tests
+      - name: Run Tests with Coverage
+        env:
+          CI: true # Define a variável CI para evitar que o SimpleCov crie relatórios HTML
         run: |
           bundle exec rails db:create RAILS_ENV=test
           bundle exec rails db:schema:load RAILS_ENV=test
-          bundle exec rspec
+          bundle exec rspec --format progress --format RspecJunitFormatter --out test-results.xml
+          COVERAGE=true bundle exec rspec
+
+      - name: Display Coverage (if successful)
+        if: always() && failure() != true() # Executa apenas se a etapa anterior for bem-sucedida
+        run: |
+          gem install simplecov
+          simplecov-html -o coverage
+          echo "Coverage report:"
+          cat coverage/index.html
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: test-results.xml
+
+      - name: Upload Coverage Artifact
+        if: always() && failure() != true() # Executa apenas se a etapa anterior for bem-sucedida
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage
