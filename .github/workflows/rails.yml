@@ -1,16 +1,16 @@
-name: Rails CI
+name: Rails CI with Coverage Check
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
+  push:
     branches:
       - main
 
 jobs:
   test:
-    name: Test
+    name: Test and Coverage Check
     runs-on: ubuntu-latest
 
     steps:
@@ -32,3 +32,15 @@ jobs:
           bundle exec rails db:create RAILS_ENV=test
           bundle exec rails db:schema:load RAILS_ENV=test
           bundle exec rspec
+
+      - name: Validate Coverage
+        run: |
+          export COVERAGE_FILE=./coverage/.resultset.json
+
+          gem install simplecov
+
+          simplecov
+
+          COVERAGE=$(simplecov_json_summary ./coverage/.resultset.json)
+
+          echo "Cobertura de código: $COVERAGE"
