@@ -1,12 +1,9 @@
-name: Rails CI
+name: Coverage Validation
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
-      - main
+      - main  # Substitua 'main' pela branch principal do seu repositório
 
 jobs:
   test:
@@ -26,9 +23,11 @@ jobs:
         run: |
           gem install bundler
           bundle install
-
       - name: Run Tests
         run: |
-          bundle exec rails db:create RAILS_ENV=test
-          bundle exec rails db:schema:load RAILS_ENV=test
           bundle exec rspec
+      - name: Validate Coverage
+        run: |
+          export COVERAGE_FILE=./coverage/.resultset.json
+          gem install simplecov
+          simplecov check coverage: 100
