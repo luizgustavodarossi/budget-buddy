@@ -1,4 +1,4 @@
-name: Rails CI
+name: Rails CI with Coverage Check
 
 on:
   pull_request:
@@ -39,10 +39,48 @@ jobs:
 
           gem install simplecov
 
+          # Gere o relatório de cobertura usando SimpleCov
           simplecov
 
+          # Leia o arquivo de relatório gerado para obter a cobertura
           COVERAGE=$(simplecov_json_summary ./coverage/.resultset.json)
 
+          # Exiba a cobertura alcançada
           echo "Cobertura de código: $COVERAGE"
 
-          exit 0 # Sucesso
+          # Salve a cobertura em um arquivo de texto
+          echo "$COVERAGE" > coverage.txt
+
+          # Determine se a cobertura atende aos critérios de sucesso ou falha
+          if (( $(echo "$COVERAGE >= 80" | bc -l) )); then
+            echo "Cobertura de código atende aos critérios de sucesso."
+            exit 0 # Sucesso
+          else
+            echo "Cobertura de código não atende aos critérios de sucesso."
+            exit 1 # Falha
+          fi
+
+        # Salve a cobertura em um arquivo de texto
+      - name: Save Coverage Report
+        run: |
+          echo "$COVERAGE" > coverage.txt
+        continue-on-error: true
+
+      # Determine se a cobertura atende aos critérios de sucesso ou falha
+      - name: Check Coverage and Set Exit Code
+        id: coverage-check
+        run: |
+          if (( $(echo "$COVERAGE >= 80" | bc -l) )); then
+            echo "Cobertura de código atende aos critérios de sucesso."
+            echo "coverage=$COVERAGE" >> $GITHUB_ENV
+          else
+            echo "Cobertura de código não atende aos critérios de sucesso."
+            exit 1 # Falha
+          fi
+
+      - name: Upload Coverage Report
+        if: steps.coverage-check.outcome == 'success'
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage.txt
