@@ -22,9 +22,11 @@ jobs:
         with:
           ruby-version: 3.2.2
 
-      - name: Install Dependencies
+      - name: Install Dependencies and SimpleCov
         run: |
           gem install bundler
+          echo "gem 'simplecov', require: false" >> Gemfile
+          echo "gem 'simplecov-html', require: false" >> Gemfile
           bundle install
 
       - name: Run Tests with Coverage
@@ -33,15 +35,11 @@ jobs:
         run: |
           bundle exec rails db:create RAILS_ENV=test
           bundle exec rails db:schema:load RAILS_ENV=test
-          bundle exec rspec --format progress --format RspecJunitFormatter --out test-results.xml
-          COVERAGE=true bundle exec rspec
-        continue-on-error: true # Allow the workflow to continue even if the tests fail
+          bundle exec rspec --format progress --format RspecJunitFormatter --out test-results.xml --require simplecov
 
       - name: Display Coverage (if successful)
         if: success()
         run: |
-          gem install simplecov
-          gem install simplecov-html
           bundle exec simplecov-html -o coverage
           echo "Coverage report:"
           cat coverage/index.html
