@@ -9,7 +9,7 @@ RSpec.describe Account, type: :model do
 
     it 'validates presence of kind' do
       account = build :account, kind: nil
-      expect(account).to be_valid
+      expect(account).to_not be_valid
     end
   end
 
