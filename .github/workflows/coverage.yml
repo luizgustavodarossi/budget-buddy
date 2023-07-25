@@ -1,6 +1,9 @@
-name: Coverage Validation
+name: Rails CI
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -24,29 +27,35 @@ jobs:
           gem install bundler
           bundle install
 
-      - name: Run Tests
+      - name: Run Tests and Generate Coverage Report
         run: |
-          bundle exec rspec
+          bundle exec rails db:create RAILS_ENV=test
+          bundle exec rails db:schema:load RAILS_ENV=test
+          bundle exec rspec --format json --out coverage/rspec_coverage.json
+
+      - name: Process Coverage Report
+        id: coverage
+        run: |
+          COVERAGE_JSON=$(cat coverage/rspec_coverage.json)
+          COVERAGE_TOTAL=$(echo "$COVERAGE_JSON" | jq '[.examples[].covered_percent] | add / length')
+          echo "Cobertura de código total: $COVERAGE_TOTAL"
+          echo "COVERAGE_TOTAL=$COVERAGE_TOTAL" >> $GITHUB_ENV
 
       - name: Validate Coverage
         run: |
           export COVERAGE_FILE=./coverage/.resultset.json
-
           gem install simplecov
+          simplecov check coverage: 100
 
-          # Gere o relatório de cobertura usando SimpleCov em formato JSON
-          bundle exec rspec --format json --out coverage/rspec_coverage.json
+      - name: Upload Coverage Report
+        if: success()  # Upload the report only if the previous step succeeds
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage
 
-          # Extraia o resultado da cobertura do arquivo gerado pelo RSpec
-          COVERAGE=$(cat coverage/rspec_coverage.json | jq '.coverage.total')
-
-          # Exiba a cobertura alcançada
-          echo "Cobertura de código: $COVERAGE"
-
-          # Determine se a cobertura atende aos critérios de sucesso ou falha
-          if (( $(echo "$COVERAGE >= 100" | bc -l) )); then
-            echo "Cobertura de código atende aos critérios de sucesso."
-          else
-            echo "Cobertura de código não atende aos critérios de sucesso."
-            exit 1 # Falha
-          fi
+      - name: Comment Coverage on Pull Request
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: unsplash/comment-on-pr@v1
+        with:
+          message: "Cobertura de código: ${{ env.COVERAGE_TOTAL }}%"
