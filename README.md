@@ -26,8 +26,8 @@ Budget Buddy is a personal finance management application that allows users to e
 2. Navigate to the project directory: `cd budget-buddy`
 3. Install dependencies: `bundle install`
 4. Configure the database in the `config/database.yml` file.
-5. Run database migrations: `rails db:migrate`
-6. Start the local server: `rails server`
+5. Run database migrations: `bin/rails db:migrate`
+6. Start the local server: `bin/rails server`
 7. Access the application at: `http://localhost:3000`
 
 ## Contributing
