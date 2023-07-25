@@ -1,4 +1,4 @@
-name: Rails CI with Coverage Check
+name: Rails CI
 
 on:
   pull_request:
@@ -44,3 +44,5 @@ jobs:
           COVERAGE=$(simplecov_json_summary ./coverage/.resultset.json)
 
           echo "Cobertura de código: $COVERAGE"
+
+          exit 0 # Sucesso
