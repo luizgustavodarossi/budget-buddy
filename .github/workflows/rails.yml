@@ -38,6 +38,6 @@ jobs:
           sudo apt-get update
           sudo apt-get -y install grep sed
 
-          coverage_percentage=$(grep -Eo '<h2>\s*<span class="group_name">All Files<\/span>\s*\(.*<span class="[^"]+">\s*([0-9.]+)%\s*<\/span>\s*\)<\/h2>' coverage/index.html | grep -Eo '[0-9.]+')
+          coverage_percentage=$(grep -Eo '"line":\s*([0-9.]+)' coverage/.last_run.json | grep -Eo '[0-9.]+')
 
-          echo "Coverage Percentage: $percentage%"
+          echo "Coverage Percentage: $coverage_percentage%"
