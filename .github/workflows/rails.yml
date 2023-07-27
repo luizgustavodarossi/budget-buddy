@@ -33,7 +33,7 @@ jobs:
           bundle exec rails db:schema:load RAILS_ENV=test
           bundle exec rspec
 
-      - name: Extract Coverage Percentage
+      - name: Extract Coverage Percentage And Add Coverage Comment
         run: |
           sudo apt-get update
           sudo apt-get -y install jq
@@ -42,10 +42,7 @@ jobs:
 
           echo "Coverage Percentage: $coverage_percentage%"
 
-      - name: Add Coverage Comment
-        run: |
-          # Crie o corpo da mensagem do comentário
-          message="Teste do bonitão"
+          message="Coverage Percentage: $coverage_percentage%"
 
           pull_request_number=$(echo "$GITHUB_REF" | awk -F/ '{print $3}')
 
