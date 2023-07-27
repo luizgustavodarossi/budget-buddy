@@ -35,8 +35,8 @@ jobs:
 
       - name: Extract Coverage Percentage
         run: |
-          apt-get update
-          apt-get -y install grep sed
+          sudo apt-get update
+          sudo apt-get -y install grep sed
 
           coverage_percentage=$(grep -Eo '<h2>\s*<span class="group_name">All Files<\/span>\s*\(.*<span class="[^"]+">([0-9.]+)%<\/span>\s*<\/span>\s*\)<\/h2>' coverage/index.html | sed -E 's/<[^>]+>//g')
 
