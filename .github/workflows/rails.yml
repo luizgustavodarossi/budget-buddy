@@ -45,8 +45,6 @@ jobs:
 
           coverage_percentage=$(jq -r '.result.line' coverage/.last_run.json)
 
-          echo "Coverage Percentage: $coverage_percentage%"
-
           message="Coverage Percentage: $coverage_percentage%"
 
           echo "MESSAGE=$message" >> $GITHUB_ENV
