@@ -38,6 +38,8 @@ jobs:
         issues: write
         pull-requests: write
 
+    needs: rubocop
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
