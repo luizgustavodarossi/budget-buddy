@@ -38,14 +38,28 @@ jobs:
           bundle exec rails db:schema:load RAILS_ENV=test
           bundle exec rspec
 
-      - name: Extract Coverage Percentage And Add Coverage Comment
+      - name: Extract Coverage Percentage
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install jq
+
+          coverage_percentage=$(jq -r '.result.line' coverage/.last_run.json)
+
+          echo "Coverage Percentage: $coverage_percentage%"
+
+          message="Coverage Percentage: $coverage_percentage%"
+
+          echo "$message" > message.txt
+
+      - name: Add Coverage Comment
         uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            const message = fs.readFileSync('message.txt', 'utf8')
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Teste do bonitão!'
+              body: message
             })
