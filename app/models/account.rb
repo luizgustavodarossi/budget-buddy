@@ -8,10 +8,10 @@ class Account < ApplicationRecord
   validates :kind, presence: true
 
   # Adicionando algumas violações de estilo
-  before_validation :ensure_name_capitalized
-  after_create :log_account_creation
+                        before_validation :ensure_name_capitalized
+          after_create :log_account_creation
 
-  def ensure_name_capitalized
+  def JustTringToBreak
     self.name = name.capitalize
   end
 
