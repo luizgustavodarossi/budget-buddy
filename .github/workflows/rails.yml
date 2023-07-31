@@ -34,16 +34,13 @@ jobs:
           bundle exec rspec
 
       - name: Extract Coverage Percentage And Add Coverage Comment
-        run: |
-          sudo apt-get update
-          sudo apt-get -y install jq
-
-          coverage_percentage=$(jq -r '.result.line' coverage/.last_run.json)
-
-          echo "Coverage Percentage: $coverage_percentage%"
-
-          message="Coverage Percentage: $coverage_percentage%"
-
-          pull_request_number=$(echo "$GITHUB_REF" | awk -F/ '{print $3}')
-
-          curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" -d "{\"body\":\"$message\"}" "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$pull_request_number/comments"
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Teste do bonitão!'
+            })
