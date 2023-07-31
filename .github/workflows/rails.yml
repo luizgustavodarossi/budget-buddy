@@ -49,14 +49,14 @@ jobs:
 
           message="Coverage Percentage: $coverage_percentage%"
 
-          echo "$message" > message.txt
+          echo "MESSAGE=$message" >> $GITHUB_ENV
 
       - name: Add Coverage Comment
         uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const message = fs.readFileSync('message.txt', 'utf8')
+            const message = process.env.MESSAGE
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
