@@ -12,6 +12,11 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    permissions:
+        id-token: write
+        contents: read
+        issues: write
+        pull-requests: write
 
     steps:
       - name: Checkout Repository
@@ -32,3 +37,27 @@ jobs:
           bundle exec rails db:create RAILS_ENV=test
           bundle exec rails db:schema:load RAILS_ENV=test
           bundle exec rspec
+
+      - name: Extract Coverage Percentage
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install jq
+
+          coverage_percentage=$(jq -r '.result.line' coverage/.last_run.json)
+
+          message="Coverage Percentage: $coverage_percentage%"
+
+          echo "MESSAGE=$message" >> $GITHUB_ENV
+
+      - name: Add Coverage Comment
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const message = process.env.MESSAGE
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            })
