@@ -57,6 +57,7 @@ group :development, :test do
   gem 'guard-rspec', '~> 4.7', '>= 4.7.3'
   gem 'faker', '~> 3.2'
   gem 'simplecov'
+  gem 'rubocop', require: false
 end
 
 group :development do
