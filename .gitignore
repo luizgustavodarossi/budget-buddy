@@ -39,3 +39,6 @@ spec/examples.txt
 
 # Ignore tool-versions
 .tool-versions
+
+# Ignore coverage files
+/coverage/*
