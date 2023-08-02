@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe AccountsController, type: :controller do
-  describe "GET #index" do  
+  describe "GET #index" do
     context "when user is logged in" do
       let(:current_user) { create :user }
       let!(:accounts) { create_list :account, 3, user: current_user }
       before { sign_in current_user }
-      
+
       it "returns http success" do
         get :index
         expect(response).to have_http_status :success
@@ -55,9 +55,9 @@ RSpec.describe AccountsController, type: :controller do
         get :show, params: { id: account.id }
         expect(assigns(:account)).to eq account
 
-        expect { 
+        expect do
           get :show, params: { id: another_account.id }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it "renders the show template" do
@@ -124,9 +124,9 @@ RSpec.describe AccountsController, type: :controller do
         get :edit, params: { id: account.id }
         expect(assigns(:account)).to eq account
 
-        expect { 
+        expect do
           get :edit, params: { id: another_account.id }
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it "renders the edit template" do
@@ -154,9 +154,9 @@ RSpec.describe AccountsController, type: :controller do
         let(:valid_params) { attributes_for :account }
 
         it "creates a new account for the current user" do
-          expect {
+          expect do
             post :create, params: { account: valid_params }
-          }.to change(current_user.accounts, :count).by(1)
+          end.to change(current_user.accounts, :count).by(1)
         end
 
         it "redirects to the created account" do
@@ -169,9 +169,9 @@ RSpec.describe AccountsController, type: :controller do
         let(:invalid_params) { attributes_for :account, name: nil }
 
         it "does not create a new account" do
-          expect {
+          expect do
             post :create, params: { account: invalid_params }
-          }.to change(Account, :count).by(0)
+          end.to change(Account, :count).by(0)
         end
 
         it "renders the new template" do
@@ -246,9 +246,9 @@ RSpec.describe AccountsController, type: :controller do
       before { sign_in current_user }
 
       it "destroys the requested account" do
-        expect {
+        expect do
           delete :destroy, params: { id: account.id }
-        }.to change(Account, :count).by(-1)
+        end.to change(Account, :count).by(-1)
       end
 
       it "redirects to the accounts list" do
