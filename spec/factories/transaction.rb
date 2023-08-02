@@ -7,6 +7,6 @@ FactoryBot.define do
     emitted_at { Faker::Date.between(from: 2.days.ago, to: Date.today) }
     category
     user
-    accountable { create(:account) }
+    association :accountable, factory: :account
   end
 end

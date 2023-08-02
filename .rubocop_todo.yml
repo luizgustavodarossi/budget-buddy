@@ -119,6 +119,9 @@ Layout/SpaceInsidePercentLiteralDelimiters:
 # Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns.
 # AllowedMethods: refine
 Metrics/BlockLength:
+  Exclude:
+    - 'db/schema.rb'
+    - 'spec/**/*.rb'
   Max: 61
 
 # Offense count: 1

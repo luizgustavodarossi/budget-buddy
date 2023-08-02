@@ -58,6 +58,7 @@ group :development, :test do
   gem 'faker', '~> 3.2'
   gem 'simplecov'
   gem 'rubocop', require: false
+  gem 'rails-controller-testing'
 end
 
 group :development do
@@ -68,7 +69,7 @@ group :development do
   # gem "rack-mini-profiler"
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
+  gem "spring"
 end
 
 group :test do
@@ -78,3 +79,5 @@ group :test do
   gem "webdrivers"
   gem 'database_cleaner', '~> 2.0', '>= 2.0.2'
 end
+
+gem "devise", "~> 4.9"
