@@ -121,6 +121,7 @@ Layout/SpaceInsidePercentLiteralDelimiters:
 Metrics/BlockLength:
   Exclude:
     - 'db/*'
+    - 'spec/*'
   Max: 61
 
 # Offense count: 1
