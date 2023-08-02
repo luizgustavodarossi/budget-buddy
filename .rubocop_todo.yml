@@ -120,8 +120,8 @@ Layout/SpaceInsidePercentLiteralDelimiters:
 # AllowedMethods: refine
 Metrics/BlockLength:
   Exclude:
-    - 'db/*'
-    - 'spec/*'
+    - 'db/schema.rb'
+    - 'spec/**/*.rb'
   Max: 61
 
 # Offense count: 1
