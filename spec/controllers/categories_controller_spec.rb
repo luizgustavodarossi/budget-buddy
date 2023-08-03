@@ -248,7 +248,7 @@ RSpec.describe CategoriesController, type: :controller do
       it "destroys the category" do
         expect do
           delete :destroy, params: { id: category.id }
-        end.to change(Category, :count).by -1
+        end.to change(Category, :count).by(-1)
       end
 
       it "redirects to the categories index" do
