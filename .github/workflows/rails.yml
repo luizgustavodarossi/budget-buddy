@@ -59,40 +59,9 @@ jobs:
           bundle exec rails db:create RAILS_ENV=test
           bundle exec rails db:schema:load RAILS_ENV=test
           bundle exec rspec
-      
-      - name: Upload coverage reports to Codecov
-#         uses: codecov/codecov-action@v3
-        run: |
-          # Replace `linux` below with the appropriate OS
-          # Options are `alpine`, `linux`, `macos`, `windows`
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov -t ${CODECOV_TOKEN}
-#         with:
-#           token: ${{ secrets.CODECOV_TOKEN }}
-#         env:
-#           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-#       - name: Extract Coverage Percentage
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get -y install jq
+        - name: Upload Coverage to Codecov
+          uses: codecov/codecov-action@v3
+          with:
+            token: ${{ secrets.CODECOV_TOKEN }}
 
-#           coverage_percentage=$(jq -r '.result.line' coverage/.last_run.json)
-
-#           message="Coverage Percentage: $coverage_percentage%"
-
-#           echo "MESSAGE=$message" >> $GITHUB_ENV
-
-#       - name: Add Coverage Comment
-#         uses: actions/github-script@v3
-#         with:
-#           github-token: ${{secrets.GITHUB_TOKEN}}
-#           script: |
-#             const message = process.env.MESSAGE
-#             github.issues.createComment({
-#               issue_number: context.issue.number,
-#               owner: context.repo.owner,
-#               repo: context.repo.repo,
-#               body: message
-#             })
