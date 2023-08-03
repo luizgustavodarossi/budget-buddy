@@ -59,27 +59,32 @@ jobs:
           bundle exec rails db:create RAILS_ENV=test
           bundle exec rails db:schema:load RAILS_ENV=test
           bundle exec rspec
+      
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Extract Coverage Percentage
-        run: |
-          sudo apt-get update
-          sudo apt-get -y install jq
+#       - name: Extract Coverage Percentage
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get -y install jq
 
-          coverage_percentage=$(jq -r '.result.line' coverage/.last_run.json)
+#           coverage_percentage=$(jq -r '.result.line' coverage/.last_run.json)
 
-          message="Coverage Percentage: $coverage_percentage%"
+#           message="Coverage Percentage: $coverage_percentage%"
 
-          echo "MESSAGE=$message" >> $GITHUB_ENV
+#           echo "MESSAGE=$message" >> $GITHUB_ENV
 
-      - name: Add Coverage Comment
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const message = process.env.MESSAGE
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: message
-            })
+#       - name: Add Coverage Comment
+#         uses: actions/github-script@v3
+#         with:
+#           github-token: ${{secrets.GITHUB_TOKEN}}
+#           script: |
+#             const message = process.env.MESSAGE
+#             github.issues.createComment({
+#               issue_number: context.issue.number,
+#               owner: context.repo.owner,
+#               repo: context.repo.repo,
+#               body: message
+#             })
