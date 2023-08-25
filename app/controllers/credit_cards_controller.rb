@@ -1,25 +1,20 @@
 class CreditCardsController < ApplicationController
   before_action :set_credit_card, only: %i[ show edit update destroy ]
 
-  # GET /credit_cards or /credit_cards.json
   def index
     @credit_cards = current_user.credit_cards
   end
 
-  # GET /credit_cards/1 or /credit_cards/1.json
   def show
   end
 
-  # GET /credit_cards/new
   def new
     @credit_card = current_user.credit_cards.new
   end
 
-  # GET /credit_cards/1/edit
   def edit
   end
 
-  # POST /credit_cards or /credit_cards.json
   def create
     @credit_card = current_user.credit_cards.new(credit_card_params)
 
@@ -34,7 +29,6 @@ class CreditCardsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /credit_cards/1 or /credit_cards/1.json
   def update
     respond_to do |format|
       if @credit_card.update(credit_card_params)
@@ -47,7 +41,6 @@ class CreditCardsController < ApplicationController
     end
   end
 
-  # DELETE /credit_cards/1 or /credit_cards/1.json
   def destroy
     @credit_card.destroy
 
@@ -58,12 +51,10 @@ class CreditCardsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_credit_card
       @credit_card = current_user.credit_cards.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def credit_card_params
       params.require(:credit_card).permit(:name, :kind, :balance, :closes_day, :expire_day)
     end
