@@ -1,25 +1,20 @@
 class AccountsController < ApplicationController
   before_action :set_account, only: %i[ show edit update destroy ]
 
-  # GET /accounts or /accounts.json
   def index
     @accounts = current_user.accounts
   end
 
-  # GET /accounts/1 or /accounts/1.json
   def show
   end
 
-  # GET /accounts/new
   def new
     @account = current_user.accounts.new
   end
 
-  # GET /accounts/1/edit
   def edit
   end
 
-  # POST /accounts or /accounts.json
   def create
     @account = current_user.accounts.new(account_params)
 
@@ -34,7 +29,6 @@ class AccountsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /accounts/1 or /accounts/1.json
   def update
     respond_to do |format|
       if @account.update(account_params)
@@ -47,7 +41,6 @@ class AccountsController < ApplicationController
     end
   end
 
-  # DELETE /accounts/1 or /accounts/1.json
   def destroy
     @account.destroy
 
@@ -58,12 +51,10 @@ class AccountsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_account
       @account = current_user.accounts.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def account_params
       params.require(:account).permit(:name, :kind, :balance)
     end
