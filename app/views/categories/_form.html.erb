@@ -11,17 +11,19 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="row mb-3">
+    <div class="col-4">
+      <%= form.label :name, class: "form-label" %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="col-2">
+      <%= form.label :kind, class: "form-label" %>
+      <%= form.select :kind, Category.kinds.keys.map { |k| [k.humanize, k] }, {}, { class: "form-select" } %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :kind, style: "display: block" %>
-    <%= form.number_field :kind %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="d-flex justify-content-end">
+    <%= form.submit nil, class: "btn btn-success" %>
   </div>
 <% end %>
