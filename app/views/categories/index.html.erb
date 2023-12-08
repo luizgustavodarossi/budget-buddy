@@ -24,7 +24,11 @@
         <td class="text-center">
           <%= link_to "Show", category, class: "btn btn-sm btn-info" %>
           <%= link_to "Edit", edit_category_path(category), class: "btn btn-sm btn-primary" %>
-          <%= link_to "Delete", category, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+          <%= link_to category, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" do %>
+            <i class="fas fa-trash"></i>
+            <i class="bi bi-heart"></i>
+
+          <% end %>
         </td>
       </tr>
     <% end %>
