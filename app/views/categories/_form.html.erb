@@ -11,19 +11,23 @@
     </div>
   <% end %>
 
-  <div class="row mb-3">
-    <div class="col-4">
-      <%= form.label :name, class: "form-label" %>
-      <%= form.text_field :name, class: "form-control" %>
+  <fieldset disabled="<%= @disabled %>">
+    <div class="row mb-3">
+      <div class="col-4">
+        <%= form.label :name, class: "form-label" %>
+        <%= form.text_field :name, class: "form-control" %>
+      </div>
+
+      <div class="col-2">
+        <%= form.label :kind, class: "form-label" %>
+        <%= form.select :kind, Category.kinds.keys.map { |k| [k.humanize, k] }, {}, { class: "form-select" } %>
+      </div>
     </div>
 
-    <div class="col-2">
-      <%= form.label :kind, class: "form-label" %>
-      <%= form.select :kind, Category.kinds.keys.map { |k| [k.humanize, k] }, {}, { class: "form-select" } %>
-    </div>
-  </div>
-
-  <div class="d-flex justify-content-end">
-    <%= form.submit nil, class: "btn btn-success" %>
-  </div>
+    <% if !disabled %>
+      <div class="d-flex justify-content-end">
+        <%= form.submit nil, class: "btn btn-success" %>
+      </div>
+    <% end %>
+  </fieldset>
 <% end %>

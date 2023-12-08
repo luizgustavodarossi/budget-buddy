@@ -1,36 +1,106 @@
 <div class="d-flex justify-content-between py-3">
   <h2><%= @categories.model_name.human.pluralize %></h2>
 
-  <div>
-    <%= link_to "New category", new_category_path, class: 'btn btn-primary' %>
+  <div class="d-flex align-self-center gap-1">
+    <%= link_to new_category_path, title: "New", class: 'btn btn-primary' do %>
+      <i class="bi bi-plus"></i>
+    <% end %>
+
+     <div class="dropdown">
+      <button class="btn btn-secondary" data-bs-toggle="dropdown">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
   </div>
 </div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-      <th>Kind</th>
-      <th class="text-center" style="width: 200px;">Actions</th>
-    </tr>
-  </thead>
-  <tbody class="table-group-divider">
-    <% @categories.each do |category| %>
-      <tr>
-        <th scope="row"><%= category.id %></th>
-        <td><%= category.name %></td>
-        <td><%= category.kind.humanize %></td>
-        <td class="text-center">
-          <%= link_to "Show", category, class: "btn btn-sm btn-info" %>
-          <%= link_to "Edit", edit_category_path(category), class: "btn btn-sm btn-primary" %>
-          <%= link_to category, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" do %>
-            <i class="fas fa-trash"></i>
-            <i class="bi bi-heart"></i>
-
-          <% end %>
-        </td>
-      </tr>
+<div class="row justify-content-end mb-4">
+  <div class="col-md-4">
+    <%= form_with method: :get, url: categories_path, class: "form-inline" do |f| %>
+      <div class="d-flex ">
+        <%= f.text_field :search, class: "form-control mx-2", placeholder: "Search..." %>
+        <%= f.submit "Search", class: "btn btn-outline-secondary" %>
+      </div>
     <% end %>
-  </tbody>
-</table>
+  </div>
+</div>
+
+<% if @categories.empty? %>
+  <div class="alert alert-info" role="alert">
+    No <%= @categories.model_name.human.pluralize %> found.
+  </div>
+<% else %>
+  <div class="row">
+    <table class="table table-striped">
+      <thead class="table-bordered">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Kind</th>
+          <th class="text-center" style="width: 200px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <% @categories.each do |category| %>
+          <tr>
+            <th scope="row"><%= category.id %></th>
+            <td><%= category.name %></td>
+            <td><%= category.kind.humanize %></td>
+            <td class="d-flex justify-content-center gap-1">
+              <%= link_to category, title: "Show", class: "btn btn-sm btn-info" do %>
+                <i class="bi bi-eye"></i>
+              <% end %>
+              
+              <%= link_to edit_category_path(category), title: "Edit", class: "btn btn-sm btn-primary" do %>
+                <i class="bi bi-pencil"></i>
+              <% end %>
+
+              <%= link_to url_for(action: :destroy, id: category.id), 
+                          data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, 
+                          title: "Delete", 
+                          class: "btn btn-sm btn-danger" do %>
+                <i class="bi bi-trash"></i>
+              <% end %>
+
+              <div class="dropdown">
+                <button class="btn btn-sm btn-secondary" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<div class="row">
+  <nav class="d-flex justify-content-center">
+    <ul class="pagination mb-0">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
