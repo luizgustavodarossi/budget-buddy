@@ -1,14 +1,32 @@
-<p style="color: green"><%= notice %></p>
+<div class="d-flex justify-content-between py-3">
+  <h2><%= @categories.model_name.human.pluralize %></h2>
 
-<h1>Categories</h1>
-
-<div id="categories">
-  <% @categories.each do |category| %>
-    <%= render category %>
-    <p>
-      <%= link_to "Show this category", category %>
-    </p>
-  <% end %>
+  <div>
+    <%= link_to "New category", new_category_path, class: 'btn btn-primary' %>
+  </div>
 </div>
 
-<%= link_to "New category", new_category_path %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Kind</th>
+      <th class="text-center" style="width: 200px;">Actions</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">
+    <% @categories.each do |category| %>
+      <tr>
+        <th scope="row"><%= category.id %></th>
+        <td><%= category.name %></td>
+        <td><%= category.kind.humanize %></td>
+        <td class="text-center">
+          <%= link_to "Show", category, class: "btn btn-sm btn-info" %>
+          <%= link_to "Edit", edit_category_path(category), class: "btn btn-sm btn-primary" %>
+          <%= link_to "Delete", category, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -14,6 +14,8 @@
       #a875ff
      %>
 
+     <%= favicon_link_tag 'favicon' %>
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
@@ -22,6 +24,12 @@
     <%= render "base/navbar" %>
 
     <div class="container">
+      <% if notice %>
+        <div class="py-2">
+          <div class="alert alert-success"><%= notice %></div>
+        </div>
+      <% end %>
+
       <%= yield %>
     </div>
   </body>
