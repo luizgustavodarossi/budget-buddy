@@ -6,4 +6,7 @@ class Category < ApplicationRecord
 
   validates :name, presence: true
   validates :kind, presence: true
+
+  scope :incomes, -> { where(kind: :income) }
+  scope :expenses, -> { where(kind: :expense) }
 end

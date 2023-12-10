@@ -1,12 +1,132 @@
-<h1>Transactions</h1>
+<div class="d-flex justify-content-between py-3">
+  <h2><%= @transactions.model_name.human.pluralize %></h2>
 
-<div id="transactions">
-  <% @transactions.each do |transaction| %>
-    <%= render transaction %>
-    <p>
-      <%= link_to "Show this transaction", transaction %>
-    </p>
-  <% end %>
+  <div class="d-flex align-self-center gap-1">
+    <%= link_to new_transaction_path(kind: 'income'), title: "New income", class: 'btn btn-primary' do %>
+      <i class="bi bi-plus"></i>
+      Income
+    <% end %>
+
+    <div class="btn-group">
+      <%= link_to new_transaction_path(kind: 'expense', accountable_type: 'Account'), title: "New expense", class: 'btn btn-primary' do %>
+        <i class="bi bi-plus"></i>
+        Expense
+      <% end %>
+      <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="visually-hidden">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <%= link_to new_transaction_path(kind: 'expense', accountable_type: 'CreditCard'), title: "New expense on credit card", class: 'dropdown-item' do %>
+            Expense on credit card
+          <% end %>
+        </li>
+      </ul>
+    </div>
+
+    <%= link_to new_transaction_path(kind: 'transfer'), title: "New transfer", class: 'btn btn-primary' do %>
+      <i class="bi bi-plus"></i>
+      Transfer
+    <% end %>
+
+     <div class="dropdown">
+      <button class="btn btn-secondary" data-bs-toggle="dropdown">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
+  </div>
 </div>
 
-<%= link_to "New transaction", new_transaction_path %>
+<div class="row justify-content-end mb-4">
+  <div class="col-md-4">
+    <%= form_with method: :get, url: transactions_path, class: "form-inline" do |f| %>
+      <div class="d-flex ">
+        <%= f.text_field :search, class: "form-control mx-2", placeholder: "Search..." %>
+        <%= f.submit "Search", class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @transactions.empty? %>
+  <div class="alert alert-info" role="alert">
+    No <%= @transactions.model_name.human.pluralize %> found.
+  </div>
+<% else %>
+  <div class="row">
+    <table class="table table-striped">
+      <thead class="table-bordered">
+        <tr>
+          <th>#</th>
+          <th>Description</th>
+          <th>Kind</th>
+          <th class="text-center" style="width: 200px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <% @transactions.each do |transaction| %>
+          <tr>
+            <th scope="row"><%= transaction.id %></th>
+            <td><%= transaction.description %></td>
+            <td>
+              <%= transaction.kind.humanize %>
+            </td>
+            <td class="d-flex justify-content-center gap-1">
+              <%= link_to transaction, title: "Show", class: "btn btn-sm btn-info" do %>
+                <i class="bi bi-eye"></i>
+              <% end %>
+              
+              <%= link_to edit_transaction_path(transaction), title: "Edit", class: "btn btn-sm btn-primary" do %>
+                <i class="bi bi-pencil"></i>
+              <% end %>
+
+              <%= link_to url_for(action: :destroy, id: transaction.id), 
+                          data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, 
+                          title: "Delete", 
+                          class: "btn btn-sm btn-danger" do %>
+                <i class="bi bi-trash"></i>
+              <% end %>
+
+              <div class="dropdown">
+                <button class="btn btn-sm btn-secondary" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <nav class="d-flex justify-content-center">
+      <ul class="pagination mb-0">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+<% end %>
+

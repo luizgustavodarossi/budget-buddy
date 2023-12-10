@@ -10,6 +10,9 @@ class TransactionsController < ApplicationController
 
   def new
     @transaction = current_user.transactions.new
+
+    set_transaction_kind
+    set_accountable_type
   end
 
   def edit
@@ -53,9 +56,39 @@ class TransactionsController < ApplicationController
   private
     def set_transaction
       @transaction = current_user.transactions.find(params[:id])
+
+      set_categories_for_transaction
+      set_accounts_and_credit_cards
     end
 
     def transaction_params
       params.require(:transaction).permit(:kind, :amount, :emitted_at, :description, :category_id, :accountable_id, :accountable_type)
+    end
+
+    def set_transaction_kind
+      @transaction.kind = {
+        "transfer" => :transfer,
+        "income" => :income,
+        "expense" => :expense
+      }.fetch(params[:kind], :expense)
+
+      set_categories_for_transaction if @transaction.income? || @transaction.expense?
+    end
+
+    def set_accountable_type
+      @transaction.accountable_type = params[:accountable_type] || "Account"
+      set_accounts_and_credit_cards
+    end
+
+    def set_categories_for_transaction
+      @categories = current_user.categories.send(@transaction.kind.to_s.pluralize)
+    end
+
+    def set_accounts_and_credit_cards
+      if @transaction.accountable_type == "Account"
+        @accounts = current_user.accounts
+      else
+        @credit_cards = current_user.credit_cards
+      end
     end
 end

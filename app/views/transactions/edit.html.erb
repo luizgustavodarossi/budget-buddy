@@ -1,10 +1,48 @@
-<h1>Editing transaction</h1>
+<div class="d-flex justify-content-between py-3">
+  <div class="d-flex align-items-center gap-2">
+    <%= link_to transactions_path, title: "Back to list", class: "btn btn-sm btn-warning" do %>
+      <i class="bi bi-arrow-left"></i>
+    <% end %>
 
-<%= render "form", transaction: @transaction %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb fs-3 mb-0">
+        <li class="breadcrumb-item fw-semibold">
+          <%= @transaction.model_name.human.pluralize %>
+        </li>
+        <li class="breadcrumb-item" aria-current="page">Editing</li>
+      </ol>
+    </nav>
+  </div>
 
-<br>
+  <div class="d-flex align-self-center gap-1">
+    <%= link_to transaction_path(@transaction), title: "Show", class: 'btn btn-info' do %>
+      <i class="bi bi-eye"></i>
+    <% end %>
 
-<div>
-  <%= link_to "Show this transaction", @transaction %> |
-  <%= link_to "Back to transactions", transactions_path %>
+    <%= link_to url_for(action: :destroy, id: @transaction.id), 
+                data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, 
+                title: "Delete", 
+                class: "btn btn-danger" do %>
+      <i class="bi bi-trash"></i>
+    <% end %>
+
+    <div class="dropdown">
+      <button class="btn btn-secondary" data-bs-toggle="dropdown">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
+  </div>
 </div>
+
+<% if notice %>
+  <div class="mt-2">
+    <div class="alert alert-success"><%= notice %></div>
+  </div>
+<% end %>
+
+<%= render "form", transaction: @transaction, disabled: false %>

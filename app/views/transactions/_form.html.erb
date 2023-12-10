@@ -1,6 +1,6 @@
 <%= form_with(model: transaction) do |form| %>
   <% if transaction.errors.any? %>
-    <div style="color: red">
+    <div class="alert alert-danger">
       <h2><%= pluralize(transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
 
       <ul>
@@ -11,52 +11,59 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_field :description %>
-  </div>
+  <fieldset <%= disabled && "disabled" %>>
+    <div class="row mb-3">
+      <div class="col-3">
+        <%= form.label :description, class: "form-label" %>
+        <%= form.text_field :description, class: "form-control" %>
+      </div>
 
-  <div>
-    <%= form.label :kind, style: "display: block" %>
-    <%= form.number_field :kind %>
-  </div>
+      <% unless transaction.persisted? %>
+        <div class="col-3">
+          <%= form.label :kind, class: "form-label" %>
+          <%= form.select :kind, Transaction.kinds.keys.map { |k| [k.humanize, k] }, {}, { class: "form-select", disabled: "true" } %>
+        </div>
+      <% end %>
 
-  <div>
-    <%= form.label :categories_id, style: "display: block" %>
-    <%= form.text_field :categories_id %>
-  </div>
+      <% unless transaction.transfer? %>
+        <div class="col-3">
+          <%= form.label :category_id, class: "form-label" %>
+          <%= form.collection_select :category_id, @categories, :id, :name, { prompt: "Select a category" }, class: "form-control" %>
+        </div>
+      <% end %>
 
-  <div>
-    <%= form.label :accounts_id, style: "display: block" %>
-    <%= form.text_field :accounts_id %>
-  </div>
+      <div class="col-3">
+        <% if transaction.accountable_type == "Account" %>
+          <%= form.label :accountable_id, "Account", class: "form-label" %>
+          <%= form.collection_select :accountable_id, @accounts, :id, :name, { prompt: "Select a account" }, class: "form-control" %>
+        <% elsif transaction.accountable_type == "CreditCard" %>
+          <%= form.label :accountable_id, "Credit card", class: "form-label" %>
+          <%= form.collection_select :accountable_id, @credit_cards, :id, :name, { prompt: "Select a credit card" }, class: "form-control" %>
+        <% end %>
+      </div>
 
-  <div>
-    <%= form.label :due_at, style: "display: block" %>
-    <%= form.date_field :due_at %>
-  </div>
+      <% unless transaction.transfer? %>
+        <div class="col-3">
+          <%= form.label :emitted_at, class: "form-label" %>
+          <%= form.date_field :emitted_at, class: "form-control" %>
+        </div>
+      <% end %>
 
-  <div>
-    <%= form.label :amount_to_pay, style: "display: block" %>
-    <%= form.text_field :amount_to_pay %>
-  </div>
+      <div class="col-3">
+        <%= form.label :amount, class: "form-label" %>
+        <%= form.text_field :amount, step: 0.01, class: "form-control" %>
+      </div>
 
-  <div>
-    <%= form.label :paid_at, style: "display: block" %>
-    <%= form.date_field :paid_at %>
-  </div>
+      <div class="col-12">
+        <%= form.label :observation, class: "form-label" %>
+        <%= form.text_area :observation, size: "70x5", class: "form-control" %>
+      </div>
+    </div>
 
-  <div>
-    <%= form.label :amount_paid, style: "display: block" %>
-    <%= form.text_field :amount_paid %>
-  </div>
-
-  <div>
-    <%= form.label :observation, style: "display: block" %>
-    <%= form.text_area :observation %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+    <% if !disabled %>
+      <div class="d-flex justify-content-end">
+        <%= form.submit nil, class: "btn btn-success" %>
+      </div>
+    <% end %>
+  </fieldset>
 <% end %>
