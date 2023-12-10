@@ -25,8 +25,8 @@
   <div class="col-md-4">
     <%= form_with method: :get, url: credit_cards_path, class: "form-inline" do |f| %>
       <div class="d-flex ">
-        <%= f.text_field :search, class: "form-control mx-2", placeholder: "Search..." %>
-        <%= f.submit "Search", class: "btn btn-outline-secondary" %>
+        <%= f.text_field :search, value: params[:search], class: "form-control mx-2", placeholder: "Search..." %>
+        <%= f.submit "Search", name: nil, class: "btn btn-outline-secondary" %>
       </div>
     <% end %>
   </div>

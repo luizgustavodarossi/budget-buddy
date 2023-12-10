@@ -9,4 +9,6 @@ class Transaction < ApplicationRecord
   validates :kind, presence: true
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :emitted_at, presence: true
+
+  scope :search, ->(search) { where("description LIKE ?", "%#{search}%") }
 end

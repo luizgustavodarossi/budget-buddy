@@ -4,6 +4,7 @@ class AccountsController < ApplicationController
 
   def index
     @accounts = current_user.accounts
+    @accounts = @accounts.search(params[:search]) if params[:search].present?
 
     @pagy, @accounts = pagy(@accounts)
   end

@@ -6,4 +6,6 @@ class Account < ApplicationRecord
 
   validates :name, presence: true
   validates :kind, presence: true
+
+  scope :search, ->(search) { where("name LIKE ?", "%#{search}%") }
 end

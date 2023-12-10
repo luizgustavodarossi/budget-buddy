@@ -4,6 +4,7 @@ class TransactionsController < ApplicationController
 
   def index
     @transactions = current_user.transactions
+    @transactions = @transactions.search(params[:search]) if params[:search].present?
 
     @pagy, @transactions = pagy(@transactions)
   end

@@ -4,6 +4,7 @@ class CreditCardsController < ApplicationController
 
   def index
     @credit_cards = current_user.credit_cards
+    @credit_cards = @credit_cards.search(params[:search]) if params[:search].present?
 
     @pagy, @credit_cards = pagy(@credit_cards)
   end

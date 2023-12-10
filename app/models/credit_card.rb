@@ -9,4 +9,6 @@ class CreditCard < ApplicationRecord
   validates :balance, presence: true
   validates :closes_day, presence: true
   validates :expire_day, presence: true
+
+  scope :search, ->(search) { where("name LIKE ?", "%#{search}%") }
 end
