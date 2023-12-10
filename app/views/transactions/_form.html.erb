@@ -21,6 +21,7 @@
       <div class="col-3">
         <%= form.label :kind, class: "form-label" %>
         <%= form.select :kind, Transaction.kinds.keys.map { |k| [k.humanize, k] }, {}, { class: "form-select", disabled: "true" } %>
+        <%= form.hidden_field :kind, value: transaction.kind %>
       </div>
 
       <% unless transaction.transfer? %>
@@ -34,9 +35,11 @@
         <% if transaction.accountable_type == "Account" %>
           <%= form.label :accountable_id, "Account", class: "form-label" %>
           <%= form.collection_select :accountable_id, @accounts, :id, :name, { prompt: "Select a account" }, class: "form-control" %>
+          <%= form.hidden_field :accountable_type, value: "Account" %>
         <% elsif transaction.accountable_type == "CreditCard" %>
           <%= form.label :accountable_id, "Credit card", class: "form-label" %>
           <%= form.collection_select :accountable_id, @credit_cards, :id, :name, { prompt: "Select a credit card" }, class: "form-control" %>
+          <%= form.hidden_field :accountable_type, value: "CreditCard" %>
         <% end %>
       </div>
 
@@ -49,7 +52,7 @@
 
       <div class="col-3">
         <%= form.label :amount, class: "form-label" %>
-        <%= form.text_field :amount,   step: 0.01, class: "form-control" %>
+        <%= form.number_field :amount, step: 0.01, class: "form-control" %>
       </div>
 
       <div class="col-12">
