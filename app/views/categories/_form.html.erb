@@ -13,12 +13,12 @@
 
   <fieldset <%= disabled && "disabled" %>>
     <div class="row mb-3">
-      <div class="col-4">
+      <div class="col-3">
         <%= form.label :name, class: "form-label" %>
         <%= form.text_field :name, class: "form-control" %>
       </div>
 
-      <div class="col-2">
+      <div class="col-3">
         <%= form.label :kind, class: "form-label" %>
         <%= form.select :kind, Category.kinds.keys.map { |k| [k.humanize, k] }, {}, { class: "form-select" } %>
       </div>
