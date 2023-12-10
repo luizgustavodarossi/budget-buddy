@@ -86,7 +86,12 @@
             <th scope="row"><%= transaction.id %></th>
             <td><%= transaction.description %></td>
             <td>
-              <%= transaction.kind.humanize %>
+              <% badge_class = {
+                  'income' => 'success',
+                  'expense' => 'danger',
+                  'transfer' => 'warning'
+              }.fetch(transaction.kind.to_s, 'info') %>
+              <span class="badge text-bg-<%= badge_class %>"><%= transaction.kind.humanize %></span>
             </td>
             <td class="d-flex justify-content-center gap-1">
               <%= link_to transaction, title: "Show", class: "btn btn-sm btn-info" do %>
