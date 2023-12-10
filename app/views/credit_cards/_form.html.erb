@@ -1,6 +1,6 @@
 <%= form_with(model: credit_card) do |form| %>
   <% if credit_card.errors.any? %>
-    <div style="color: red">
+    <div class="alert alert-danger">
       <h2><%= pluralize(credit_card.errors.count, "error") %> prohibited this credit_card from being saved:</h2>
 
       <ul>
@@ -11,32 +11,38 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
+  <fieldset <%= disabled && "disabled" %>>
+    <div class="row mb-3">
+      <div class="col-3">
+        <%= form.label :name, class: "form-label" %>
+        <%= form.text_field :name, class: "form-control" %>
+      </div>
 
-  <div>
-    <%= form.label :kind, style: "display: block" %>
-    <%= form.number_field :kind %>
-  </div>
+      <div class="col-3">
+        <%= form.label :kind, class: "form-label" %>
+        <%= form.select :kind, CreditCard.kinds.keys.map { |k| [k.humanize, k] }, {}, { class: "form-select" } %>
+      </div>
 
-  <div>
-    <%= form.label :balance, style: "display: block" %>
-    <%= form.text_field :balance %>
-  </div>
+      <div class="col-3">
+        <%= form.label :balance, class: "form-label" %>
+        <%= form.number_field :balance, step: 0.01, class: "form-control" %>
+      </div>
 
-  <div>
-    <%= form.label :closes_day, style: "display: block" %>
-    <%= form.number_field :closes_day %>
-  </div>
+      <div class="col-3">
+        <%= form.label :closes_day, class: "form-label" %>
+        <%= form.select :closes_day, (1..30).to_a, { include_blank: 'Closes on the day' }, { class: "form-control" } %>
+      </div>
 
-  <div>
-    <%= form.label :expire_day, style: "display: block" %>
-    <%= form.number_field :expire_day %>
-  </div>
+      <div class="col-3">
+        <%= form.label :expire_day, class: "form-label" %>
+        <%= form.select :expire_day, (1..30).to_a, { include_blank: 'Expires on the day' }, { class: "form-control" } %>
+      </div>
+    </div>
 
-  <div>
-    <%= form.submit %>
-  </div>
+    <% if !disabled %>
+      <div class="d-flex justify-content-end">
+        <%= form.submit nil, class: "btn btn-success" %>
+      </div>
+    <% end %>
+  </fieldset>
 <% end %>

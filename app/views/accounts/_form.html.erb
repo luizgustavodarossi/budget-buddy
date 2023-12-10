@@ -1,6 +1,6 @@
 <%= form_with(model: account) do |form| %>
   <% if account.errors.any? %>
-    <div style="color: red">
+    <div class="alert alert-danger">
       <h2><%= pluralize(account.errors.count, "error") %> prohibited this account from being saved:</h2>
 
       <ul>

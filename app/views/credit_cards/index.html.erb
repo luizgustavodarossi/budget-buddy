@@ -1,12 +1,109 @@
-<h1>Credit cards</h1>
+<div class="d-flex justify-content-between py-3">
+  <h2><%= @credit_cards.model_name.human.pluralize %></h2>
 
-<div id="credit_cards">
-  <% @credit_cards.each do |credit_card| %>
-    <%= render credit_card %>
-    <p>
-      <%= link_to "Show this credit card", credit_card %>
-    </p>
-  <% end %>
+  <div class="d-flex align-self-center gap-1">
+    <%= link_to new_credit_card_path, title: "New", class: 'btn btn-primary' do %>
+      <i class="bi bi-plus"></i>
+    <% end %>
+
+     <div class="dropdown">
+      <button class="btn btn-secondary" data-bs-toggle="dropdown">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
+  </div>
 </div>
 
-<%= link_to "New credit card", new_credit_card_path %>
+<div class="row justify-content-end mb-4">
+  <div class="col-md-4">
+    <%= form_with method: :get, url: credit_cards_path, class: "form-inline" do |f| %>
+      <div class="d-flex ">
+        <%= f.text_field :search, class: "form-control mx-2", placeholder: "Search..." %>
+        <%= f.submit "Search", class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @credit_cards.empty? %>
+  <div class="alert alert-info" role="alert">
+    No <%= @credit_cards.model_name.human.pluralize %> found.
+  </div>
+<% else %>
+  <div class="row">
+    <table class="table table-striped">
+      <thead class="table-bordered">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Kind</th>
+          <th class="text-center" style="width: 200px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <% @credit_cards.each do |credit_card| %>
+          <tr>
+            <th scope="row"><%= credit_card.id %></th>
+            <td><%= credit_card.name %></td>
+            <td>
+              <%= credit_card.kind.humanize %>
+            </td>
+            <td class="d-flex justify-content-center gap-1">
+              <%= link_to credit_card, title: "Show", class: "btn btn-sm btn-info" do %>
+                <i class="bi bi-eye"></i>
+              <% end %>
+              
+              <%= link_to edit_credit_card_path(credit_card), title: "Edit", class: "btn btn-sm btn-primary" do %>
+                <i class="bi bi-pencil"></i>
+              <% end %>
+
+              <%= link_to url_for(action: :destroy, id: credit_card.id), 
+                          data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, 
+                          title: "Delete", 
+                          class: "btn btn-sm btn-danger" do %>
+                <i class="bi bi-trash"></i>
+              <% end %>
+
+              <div class="dropdown">
+                <button class="btn btn-sm btn-secondary" data-bs-toggle="dropdown">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="row">
+    <nav class="d-flex justify-content-center">
+      <ul class="pagination mb-0">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+<% end %>
+
