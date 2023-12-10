@@ -24,12 +24,6 @@
     <%= render "base/navbar" %>
 
     <div class="container">
-      <% if notice %>
-        <div class="py-2">
-          <div class="alert alert-success"><%= notice %></div>
-        </div>
-      <% end %>
-
       <%= yield %>
     </div>
   </body>

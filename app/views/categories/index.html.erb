@@ -50,7 +50,9 @@
           <tr>
             <th scope="row"><%= category.id %></th>
             <td><%= category.name %></td>
-            <td><%= category.kind.humanize %></td>
+            <td>
+              <span class="badge text-bg-<%= category.income? ? 'success' : 'danger' %>"><%= category.kind.humanize %></span>
+            </td>
             <td class="d-flex justify-content-center gap-1">
               <%= link_to category, title: "Show", class: "btn btn-sm btn-info" do %>
                 <i class="bi bi-eye"></i>
