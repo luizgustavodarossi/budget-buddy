@@ -1,8 +1,11 @@
 class AccountsController < ApplicationController
+  include Pagy::Backend
   before_action :set_account, only: %i[ show edit update destroy ]
 
   def index
     @accounts = current_user.accounts
+
+    @pagy, @accounts = pagy(@accounts)
   end
 
   def show

@@ -1,8 +1,12 @@
 class CategoriesController < ApplicationController
+  include Pagy::Backend
   before_action :set_category, only: %i[ show edit update destroy ]
 
   def index
     @categories = current_user.categories
+    @categories = @categories.search(params[:search]) if params[:search].present?
+
+    @pagy, @categories = pagy(@categories)
   end
 
   def show
@@ -57,5 +61,9 @@ class CategoriesController < ApplicationController
 
     def category_params
       params.require(:category).permit(:name, :kind)
+    end
+
+    def page_params
+      params.permit(:page)
     end
 end

@@ -9,4 +9,5 @@ class Category < ApplicationRecord
 
   scope :incomes, -> { where(kind: :income) }
   scope :expenses, -> { where(kind: :expense) }
+  scope :search, ->(search) { where("name LIKE ?", "%#{search}%") }
 end

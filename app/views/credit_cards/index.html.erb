@@ -20,6 +20,9 @@
 </div>
 
 <div class="row justify-content-end mb-4">
+  <div class="col">
+    <%== pagy_info(@pagy) %>
+  </div>  
   <div class="col-md-4">
     <%= form_with method: :get, url: credit_cards_path, class: "form-inline" do |f| %>
       <div class="d-flex ">
@@ -88,21 +91,7 @@
   
   <div class="row">
     <nav class="d-flex justify-content-center">
-      <ul class="pagination mb-0">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
+      <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
     </nav>
   </div>
 <% end %>

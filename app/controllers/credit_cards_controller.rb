@@ -1,8 +1,11 @@
 class CreditCardsController < ApplicationController
+  include Pagy::Backend
   before_action :set_credit_card, only: %i[ show edit update destroy ]
 
   def index
     @credit_cards = current_user.credit_cards
+
+    @pagy, @credit_cards = pagy(@credit_cards)
   end
 
   def show

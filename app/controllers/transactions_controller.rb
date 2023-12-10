@@ -1,8 +1,11 @@
 class TransactionsController < ApplicationController
+  include Pagy::Backend
   before_action :set_transaction, only: %i[ show edit update destroy ]
 
   def index
     @transactions = current_user.transactions
+
+    @pagy, @transactions = pagy(@transactions)
   end
 
   def show
