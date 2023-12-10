@@ -30,11 +30,15 @@
               <%= image_tag 'profile-user', height: '30px' %>
               <%=
                 max_length = 15
-                profile_name = current_user.name.split(' ').reduce('') do |result, name|
-                  break result if result.length + name.length > max_length
+                if current_user.name.present?
+                  profile_name = current_user.name.split(' ').reduce('') do |result, name|
+                    break result if result.length + name.length > max_length
 
-                  "#{result} #{name}"
-                end.strip
+                    "#{result} #{name}"
+                  end.strip
+                else
+                  profile_name = current_user.email.split('@').first
+                end
               %>
             </a>
             <ul class="dropdown-menu text-small">
