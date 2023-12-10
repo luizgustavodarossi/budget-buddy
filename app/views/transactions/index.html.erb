@@ -77,7 +77,6 @@
     <table class="table table-striped">
       <thead class="table-bordered">
         <tr>
-          <th>#</th>
           <th>Description</th>
           <th>Kind</th>
           <th class="text-center" style="width: 200px;">Actions</th>
@@ -86,7 +85,6 @@
       <tbody class="table-group-divider">
         <% @transactions.each do |transaction| %>
           <tr>
-            <th scope="row"><%= transaction.id %></th>
             <td><%= transaction.description %></td>
             <td>
               <% badge_class = {

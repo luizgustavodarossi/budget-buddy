@@ -42,7 +42,6 @@
     <table class="table table-striped">
       <thead class="table-bordered">
         <tr>
-          <th>#</th>
           <th>Name</th>
           <th>Kind</th>
           <th class="text-center" style="width: 200px;">Actions</th>
@@ -51,7 +50,6 @@
       <tbody class="table-group-divider">
         <% @accounts.each do |account| %>
           <tr>
-            <th scope="row"><%= account.id %></th>
             <td><%= account.name %></td>
             <td>
               <%= account.kind.humanize %>
