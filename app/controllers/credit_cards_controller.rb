@@ -25,10 +25,8 @@ class CreditCardsController < ApplicationController
     respond_to do |format|
       if @credit_card.save
         format.html { redirect_to credit_card_url(@credit_card), notice: "Credit card was successfully created." }
-        format.json { render :show, status: :created, location: @credit_card }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @credit_card.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -37,10 +35,8 @@ class CreditCardsController < ApplicationController
     respond_to do |format|
       if @credit_card.update(credit_card_params)
         format.html { redirect_to credit_card_url(@credit_card), notice: "Credit card was successfully updated." }
-        format.json { render :show, status: :ok, location: @credit_card }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @credit_card.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -50,7 +46,6 @@ class CreditCardsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to credit_cards_url, notice: "Credit card was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 

@@ -143,9 +143,6 @@ GEM
     irb (1.10.1)
       rdoc
       reline (>= 0.3.8)
-    jbuilder (2.11.5)
-      actionview (>= 5.0.0)
-      activesupport (>= 5.0.0)
     jsbundling-rails (1.2.1)
       railties (>= 6.0.0)
     json (2.7.1)
@@ -367,7 +364,6 @@ DEPENDENCIES
   faker (~> 3.2)
   guard-rspec (~> 4.7, >= 4.7.3)
   importmap-rails
-  jbuilder
   jsbundling-rails (~> 1.1)
   pagy (~> 6.2)
   puma (~> 5.0)
