@@ -11,13 +11,16 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_07_26_001733) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "accounts", force: :cascade do |t|
     t.string "name"
     t.integer "kind"
     t.decimal "balance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
@@ -26,7 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_001733) do
     t.integer "kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
@@ -38,7 +41,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_001733) do
     t.integer "expire_day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_credit_cards_on_user_id"
   end
 
@@ -50,16 +53,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_001733) do
   create_table "transactions", force: :cascade do |t|
     t.string "description"
     t.integer "kind"
-    t.integer "category_id", null: false
+    t.bigint "category_id", null: false
     t.date "emitted_at"
     t.decimal "amount"
     t.text "observation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "transaction_group_id"
-    t.integer "user_id"
+    t.bigint "transaction_group_id"
+    t.bigint "user_id"
     t.string "accountable_type", null: false
-    t.integer "accountable_id", null: false
+    t.bigint "accountable_id", null: false
     t.index ["accountable_type", "accountable_id"], name: "index_transactions_on_accountable"
     t.index ["category_id"], name: "index_transactions_on_category_id"
     t.index ["transaction_group_id"], name: "index_transactions_on_transaction_group_id"
